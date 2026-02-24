@@ -273,14 +273,14 @@ Both test programs execute correctly and validate the heap file functionality.
 ### 1. Clone this repository
 1. Open terminal in the directory that you want to clone project and type
     ```sh
-    git clone https://github.com/nataliakrik/hash-tables-chunks-disks.git
+    git clone https://github.com/nataliakrik/Heap-file-implementation.git
    ```
 
 
 ### 2. Go into the repository
 2. Open directory
    ```sh
-   cd Exercise1
+   cd Heap-file-implementation
    ```
 
 
@@ -289,7 +289,7 @@ Instructions on compiling and running the code
 
 <a id="exercise1-build"></a>
 ### Exercise1
-1. Open folder of the exercise you want to test
+1. Open folder for exercise1 
     ```sh
    cd exercise1
    ```
@@ -299,7 +299,7 @@ Instructions on compiling and running the code
    make hp
    make hp1
    ```
-3. Input declares polynomial degree
+3. Run the build with this command
    ```sh
    ./build/bf_main
    ./build/hp_main
@@ -349,4 +349,5 @@ Instructions on compiling and running the code
 
 
 ---
+
 
