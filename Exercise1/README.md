@@ -1,11 +1,16 @@
+<!-- Readme Top -->
+<a id="readme-top"></a>
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a0f8e72e-4462-4c02-889d-4bd3887be226" width="150">
 </p>
 
-# ${\color{red}Heap \space File \space Implementation \space – \space Assignment-1}$
+# ${\color{red}Heap \space File \space Implementation \space – \space Assignment 1}$
 
-**Course:** Database Systems Implementation
+**Course:** Database Systems Implementation 
+
 **Department:** Informatics & Telecommunications
+
 **Semester:** Winter 2023–2024
 
 
@@ -27,7 +32,7 @@
       </ul>
       </li>
       <li><a href="#Execution-Testing">Execution and Testing</a></li>
-      <li><a href="#Notes">Exercise 1</a></li>
+      <li><a href="#Notes">Notes</a></li>
       <li><a href="#my-pc-stats">My PC Stats</a></li>
    </ol>
 </details>
