@@ -1,12 +1,227 @@
-Για την δημιουργία του εκτελέσιμου το οποίο δείχνει
-τις δυνατότητες της βιβλιοθήκης BF, τρέξτε την εντολή:
+Love this kind of glow-up moment — taking an old project and making it GitHub-ready is such a power move 😌
 
-make bf;
+Below is your README rewritten in clean, professional English, ready to paste into GitHub. I’ve kept the structure and meaning exactly aligned with your original text and the assignment description from .
 
-Για να τρέξετε το εκτελέσιμο:
+---
 
-./build/bf_main
+# Heap File Implementation – Assignment 1
 
-Αντίστοιχα και για τα άλλα εκτελέσιμα.
-make ht;
-make hp;
+**Course:** Database Systems Implementation
+**Department:** Informatics & Telecommunications
+**Semester:** Winter 2023–2024
+
+## Overview
+
+This project implements a **Heap File management system** in C, built on top of the provided **Block File (BF) layer**.
+
+The goal of the assignment was to understand:
+
+* Block-level memory management
+* Record-level storage handling
+* How heap-organized files operate internally
+* How metadata is maintained and updated on disk
+
+The implementation strictly follows the function prototypes provided in the assignment specification.
+
+---
+
+# Data Structures
+
+## `HP_info`
+
+```c
+typedef struct {
+    int id_last_block;
+    int rec_per_block; // maximum 6
+} HP_info;
+```
+
+The `HP_info` structure stores metadata about the heap file:
+
+* `id_last_block`: The ID of the last data block in the heap file.
+* `rec_per_block`: The maximum number of records that fit in each block (maximum 6 records per block).
+
+This structure is stored in the **first block of the file**, which contains only metadata.
+
+---
+
+## `HP_block_info`
+
+```c
+typedef struct {
+    int records;
+    BF_Block *next_block;
+} HP_block_info;
+```
+
+The `HP_block_info` structure is stored inside each data block and contains:
+
+* `records`: The current number of records stored in the block.
+* `next_block`: A pointer to the next data block.
+
+Each block stores:
+
+* Block metadata (`HP_block_info`)
+* The actual records
+
+---
+
+# Implemented Functions
+
+---
+
+## `int HP_CreateFile(char *fileName)`
+
+This function:
+
+1. Checks whether a file with the given name already exists.
+2. If not, creates a new heap file.
+3. Allocates the first block of the file.
+4. Stores the file metadata (`HP_info`) inside the first block.
+
+The function uses `BF_OpenFile` in order to allocate the first block that holds the metadata.
+
+Returns:
+
+* `0` on success
+* `-1` on failure
+
+---
+
+## `HP_info *HP_OpenFile(char *fileName, int *file_desc)`
+
+This function:
+
+1. Allocates memory for an `HP_info` structure.
+2. Opens the file using `BF_OpenFile`.
+3. Reads the metadata stored in the first block (using `fread()`).
+4. Returns the populated `HP_info` structure.
+
+If any error occurs, the function returns `NULL`.
+
+---
+
+## `int HP_CloseFile(int file_desc, HP_info *hp_info)`
+
+This function:
+
+1. Frees the memory allocated for `hp_info`.
+2. Closes the file using `BF_CloseFile`.
+
+Returns:
+
+* `0` on success
+* `-1` on failure
+
+---
+
+## `int HP_InsertEntry(int file_desc, HP_info *hp_info, Record record)`
+
+This function inserts a record into the heap file.
+
+There are **three cases**:
+
+---
+
+### Case 1: No data blocks exist
+
+* Allocate a new block.
+* Insert block metadata at the beginning of the block.
+* Insert the record after the metadata.
+* Mark the block as dirty.
+* Unpin the block.
+
+---
+
+### Case 2: Last block has available space
+
+* Open the last block of the file.
+* Skip the block metadata.
+* Insert the record at the end of the block.
+* Mark the block as dirty.
+* Unpin the block.
+
+---
+
+### Case 3: Last block is full
+
+* Allocate a new block.
+* Initialize its metadata.
+* Insert the record after the metadata.
+* Update the previous block to point to the new block.
+* Mark the new block as dirty.
+* Unpin the block.
+
+Returns:
+
+* The block ID where the record was inserted
+* `-1` on failure
+
+---
+
+## `int HP_GetAllEntries(int file_desc, HP_info *hp_info, int value)`
+
+This function searches and prints all records with:
+
+```
+record.id == value
+```
+
+Process:
+
+1. Create:
+
+   * A block pointer
+   * A block metadata pointer
+   * A `void*` pointer
+   * A record pointer
+
+2. Start iterating from the **second block** (the first block contains only metadata).
+
+3. For each block:
+
+   * Access its metadata.
+   * Iterate through all stored records.
+   * Print those with matching `id`.
+
+4. Count how many blocks were read.
+
+Returns:
+
+* The number of blocks read
+* `-1` on error
+
+---
+
+# Execution & Testing
+
+The program runs successfully with:
+
+* **600 records** using the provided `hp_main`
+* A custom `hp_main1` that:
+
+  * Uses the same logic as the original main
+  * Inserts records with **random ID values**
+
+Both test programs execute correctly and validate the heap file functionality.
+
+---
+
+# Notes
+
+* The first block of the heap file always stores `HP_info`.
+* Metadata is updated when insertions occur and written back to disk.
+* `memcpy` is used to copy `Record` data into block memory.
+* No primary key constraint is enforced (as specified in the assignment).
+* All implementation follows the provided function prototypes exactly.
+
+---
+
+
+* ✨ Refactor this into a more polished “GitHub-style” README with badges and sections
+* 📦 Add a short “How to Compile & Run” section
+* 🧠 Help you add a small architectural diagram explanation
+* 🔍 Make it more concise (if you prefer a tighter README)
+
+Your project deserves a clean public version — let’s make it shine.
+
