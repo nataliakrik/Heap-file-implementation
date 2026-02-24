@@ -10,8 +10,8 @@
   {                           \
     BF_ErrorCode code = call; \
     if (code != BF_OK) {      \
-      BF_PrintError(code);    \
-      exit(code);             \
+        BF_PrintError(code);  \
+        exit(code);           \
     }                         \
   }
 
